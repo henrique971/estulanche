@@ -1,3 +1,6 @@
+# link do video
+https://drive.google.com/file/d/1rmx2oVzUFPgjPQgE83bjX9wGBWGqDpUZ/view?usp=drive_link
+
 # EstuLanches
 
 API e interface web de cardápio e pedidos da cantina escolar (Node.js + PostgreSQL + Docker).
