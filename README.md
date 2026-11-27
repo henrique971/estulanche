@@ -1,5 +1,5 @@
 # link do video
-https://drive.google.com/file/d/1rmx2oVzUFPgjPQgE83bjX9wGBWGqDpUZ/view?usp=drive_link
+https://drive.google.com/file/d/1rmx2oVzUFPgjPQgE83bjX9wGBWGqDpUZ/view?usp=sharing
 
 # EstuLanches
 
