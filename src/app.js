@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -9,9 +10,10 @@ function createApp(repo) {
   app.use(helmet());
   app.use(express.json({ limit: '10kb' }));
   app.use(rateLimit({ windowMs: 60_000, limit: 300 }));
+  app.use(express.static(path.join(__dirname, '..', 'public')));
 
   app.get('/health', async (req, res) => {
-    try { await repo.ping(); res.json({ status: 'ok', db: 'up' }); }
+    try { await repo.ping(); res.json({ status: 'ok', db: repo.mode === 'memory' ? 'simulado' : 'up' }); }
     catch { res.status(503).json({ status: 'erro', db: 'down' }); }
   });
 

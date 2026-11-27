@@ -4,6 +4,7 @@ const { calcularTotal } = require('./validators');
 function createRepository(connectionString) {
   const pool = new Pool({ connectionString, max: 10 });
   return {
+    mode: 'postgres',
     async ping() { await pool.query('SELECT 1'); },
 
     async listarCardapio() {
@@ -59,4 +60,57 @@ function createRepository(connectionString) {
   };
 }
 
-module.exports = { createRepository };
+function createMemoryRepository() {
+  const itens = [
+    { id: 1, nome: 'Pão de queijo', preco: 4.5 },
+    { id: 2, nome: 'Suco de laranja', preco: 6 },
+    { id: 3, nome: 'Coxinha', preco: 7 },
+    { id: 4, nome: 'Sanduíche natural', preco: 9.5 },
+  ];
+  const pedidos = [];
+  let proximoItemId = itens.length + 1;
+  let proximoPedidoId = 1;
+
+  return {
+    mode: 'memory',
+    async ping() {},
+
+    async listarCardapio() {
+      return itens.map((item) => ({ ...item }));
+    },
+
+    async criarItem({ nome, preco }) {
+      const item = { id: proximoItemId++, nome: nome.trim(), preco };
+      itens.push(item);
+      return { ...item };
+    },
+
+    async criarPedido({ cliente, itens: itensPedido }) {
+      const precos = new Map(itens.map((item) => [item.id, item.preco]));
+      if (itensPedido.some((item) => !precos.has(item.item_id)))
+        throw Object.assign(new Error('Item indisponível ou inexistente'), { status: 422 });
+
+      const linhas = itensPedido.map((item) => ({
+        ...item,
+        preco: precos.get(item.item_id),
+      }));
+      const pedido = {
+        id: proximoPedidoId++,
+        cliente: cliente.trim(),
+        total: calcularTotal(linhas),
+        status: 'RECEBIDO',
+      };
+      pedidos.push(pedido);
+      return { ...pedido };
+    },
+
+    async buscarPedido(id) {
+      const pedido = pedidos.find((item) => item.id === id);
+      return pedido ? { ...pedido } : null;
+    },
+
+    async close() {},
+  };
+}
+
+module.exports = { createRepository, createMemoryRepository };

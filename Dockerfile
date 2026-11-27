@@ -16,6 +16,7 @@ CMD ["npm", "test"]
 FROM node:20-alpine AS prod
 ENV NODE_ENV=production
 WORKDIR /app
+COPY public ./public
 COPY --from=deps /app/node_modules ./node_modules
 COPY package*.json ./
 COPY src ./src

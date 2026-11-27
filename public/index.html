@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EstuLanches</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>🥪 EstuLanches</h1>
+<div id="msg"></div>
+
+<section>
+  <h2>Cardápio</h2>
+  <div id="cardapio">Carregando...</div>
+  <div id="total">Total: R$ 0,00</div>
+  <div class="row">
+    <input id="cliente" placeholder="Seu nome">
+    <button id="btnPedir">Fazer pedido</button>
+  </div>
+</section>
+
+<section>
+  <h2>Consultar pedido</h2>
+  <div class="row">
+    <input id="idPedido" type="number" placeholder="Nº do pedido">
+    <button id="btnBuscar">Buscar</button>
+  </div>
+  <p id="resultado"></p>
+</section>
+
+<section>
+  <h2>Novo item no cardápio</h2>
+  <div class="row">
+    <input id="novoNome" placeholder="Nome">
+    <input id="novoPreco" type="number" step="0.01" placeholder="Preço">
+    <button id="btnAdd">Adicionar</button>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
